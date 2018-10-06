@@ -22,6 +22,14 @@ class Logic_Delay extends IPSModule {
         }
 		
         public function ApplyChanges() {
+			$I_TriggerID = $this->ReadPropertyInteger("I_Trigger");
+			if (!$I_TriggerID){ 
+				$I_TriggerID = IPS_GetParent($_IPS['SELF']); 
+				if (IPS_VariableExists($I_TriggerID)){
+					this->WritePropertyInteger("I_Trigger", $I_TriggerID);
+				}
+			}	
+			
             parent::ApplyChanges();
 				
 			$this->UpdateEvents();			
@@ -34,7 +42,7 @@ class Logic_Delay extends IPSModule {
 			if ($id > 0) {$this->RegisterMessage($id, 10603);}
 			
 			$id = $this->ReadPropertyInteger("I_Reset");
-			if ($id > 0) {$this->RegisterMessage($id, 10603);}
+			if ($id > 0) {$this->RegisterMessage($id, 10603);}			
 		}
 		private function UpdateInput(){
 			$I_TriggerID = $this->ReadPropertyInteger("I_Trigger");
@@ -42,8 +50,6 @@ class Logic_Delay extends IPSModule {
 				
 			$I_Trigger = false;
 			$I_Reset = false;
-			
-			if (!$I_TriggerID){ $I_TriggerID = IPS_GetParent($_IPS['SELF']); }			
 			
 			if (IPS_VariableExists($I_TriggerID)){ $I_Trigger = GetValueBoolean($I_TriggerID); }
 			if (IPS_VariableExists($I_ResetID)){ $I_Reset = GetValueBoolean($I_ResetID); }			
