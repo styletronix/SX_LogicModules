@@ -11,6 +11,11 @@
       "caption": "Rücksetzen"
     },
 	{
+      "type": "SelectVariable",
+      "name": "I_Trigger",
+      "caption": "Umschalten"
+    },
+	{
       "type": "CheckBox",
       "name": "remanent",
       "caption": "Remanent"
