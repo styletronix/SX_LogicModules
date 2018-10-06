@@ -13,8 +13,13 @@ Durch Aktivieren der Variable "Reset" wird der Ausgang sofort ohne Verzögerung 
 ## RS
 Selbsthalterelais
 
-Bei aktivieren der Variable "Setzen" wird der Ausgang eingeschaltet. Der Zustand bleibt eingeschaltet, auch wenn die Variable "Setzen" auf Aus gestellt wird.
+Bei jeder aktualisierung der Variable "Setzen" mit dem Wert True wird der Ausgang eingeschaltet. Der Zustand bleibt eingeschaltet, auch wenn die Variable "Setzen" auf Aus geändert wird.
 
-Bei aktivieren der Variable "Rücksetzen" wird der Ausgang ausgeschaltet.
+Bei jeder aktualisierung der Variable "Rücksetzen" wird der Ausgang ausgeschaltet.
 
 Bei aktivierter Remanenz verbleibt der Ausgang im letzten Zustand wenn Symcon neu gestartet wird. Sonst wird der Ausgang bei einem Neustart deaktiviert.
+
+## Trigger
+Stromstoßrelais
+
+Bei jeder aktualisierung der Variable "Trigger" mit dem Wert True, wird der Ausgang umgeschaltet.
