@@ -1,0 +1,13 @@
+{
+    "id": "{bcb05139-1930-4e73-8643-a593358e0231}",
+    "name": "Logic_Delay",
+    "type": 3,
+    "vendor": "Styletronix.net",
+  "aliases": [
+    "Logic_Delay"
+  ],  
+    "parentRequirements": [],
+    "childRequirements": [],
+    "implemented": [],
+    "prefix": "SXLogic_Delay"
+}

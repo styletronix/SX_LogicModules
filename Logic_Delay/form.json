@@ -1,0 +1,33 @@
+{
+  "elements": [
+	{
+      "type": "SelectVariable",
+      "name": "I_Trigger",
+      "caption": "Trigger"
+    },
+	{
+      "type": "SelectVariable",
+      "name": "I_Reset",
+      "caption": "Reset"
+    },
+    {
+      "type": "NumberSpinner",
+      "name": "OnDelay",
+      "caption": "Einschaltverzögerung"
+    },
+	{
+      "type": "NumberSpinner",
+      "name": "OffDelay",
+      "caption": "Ausschaltverzögerung"
+    }
+  ],
+    "actions":
+    [ 
+    ],
+    "status":
+    [
+        { "code": 102, "icon": "active", "caption": "OK" },
+        { "code": 201, "icon": "error", "caption": "Authentication failed" },
+        { "code": 202, "icon": "error", "caption": "No credits left" }
+    ]
+}
