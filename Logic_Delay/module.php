@@ -43,7 +43,7 @@ class Logic_Delay extends IPSModule {
 			$I_Trigger = GetValueBoolean($I_TriggerID);
 			$I_Reset = GetValueBoolean($I_ResetID);
 			
-			if ($I_Reset == true){;
+			if ($I_Reset == true){
 				$this->SetTimerInterval("Timer_offDelay", 0);
 				$this->SetTimerInterval("Timer_onDelay", 0);
 				SetValue($this->GetIDForIdent("Output"), false);
@@ -53,7 +53,7 @@ class Logic_Delay extends IPSModule {
 				
 				$onDelay = $this->ReadPropertyFloat("OnDelay");
 				if ($onDelay > 0){
-					$this->SetTimerInterval("Timer_onDelay", ($onDelay * 1000) );
+					$this->SetTimerInterval("Timer_onDelay", $onDelay * 1000);
 				}else{
 					SetValue($this->GetIDForIdent("Output"), true);
 				}			
@@ -62,7 +62,7 @@ class Logic_Delay extends IPSModule {
 				
 				$offDelay = $this->ReadPropertyFloat("OffDelay");
 				if ($offDelay > 0){
-					$this->SetTimerInterval("Timer_offDelay", ($offDelay * 1000) );
+					$this->SetTimerInterval("Timer_offDelay", $offDelay * 1000);
 				}else{
 					SetValue($this->GetIDForIdent("Output"), false);
 				}
