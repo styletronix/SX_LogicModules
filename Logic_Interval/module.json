@@ -1,0 +1,13 @@
+{
+    "id": "{251a0e7f-08fa-45af-ae78-b5e6019f36fb}",
+    "name": "Logic_Interval",
+    "type": 3,
+    "vendor": "Styletronix.net",
+  "aliases": [
+    "Logic_Interval"
+  ],  
+    "parentRequirements": [],
+    "childRequirements": [],
+    "implemented": [],
+    "prefix": "SXLogic_Interval"
+}

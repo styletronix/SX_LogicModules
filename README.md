@@ -21,3 +21,8 @@ Bei jeder aktualisierung der Variable "Rücksetzen" wird der Ausgang ausgeschalt
 Bei jeder aktualisierung der Variable "Umschalten" wird der Ausgang umgeschaltet.
 
 Bei aktivierter Remanenz verbleibt der Ausgang im letzten Zustand wenn Symcon neu gestartet wird. Sonst wird der Ausgang bei einem Neustart deaktiviert.
+
+## Interval
+#### Impulsgeber
+
+Bei aktivieren des Eingangs wird der Ausgang sofort auf "Ein" gestellt. Anschließend wechselt der Ausgang zwischen Aus und Ein nach dem eingestellten Zeitmuster.
