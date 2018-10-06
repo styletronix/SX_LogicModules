@@ -23,10 +23,10 @@ class Logic_Delay extends IPSModule {
 		
         public function ApplyChanges() {
 			$I_TriggerID = $this->ReadPropertyInteger("I_Trigger");
-			if (!$I_TriggerID){ 
+			if ($I_TriggerID !> 0){ 
 				$I_TriggerID = IPS_GetParent($_IPS['SELF']); 
 				if (IPS_VariableExists($I_TriggerID)){
-					this->WritePropertyInteger("I_Trigger", $I_TriggerID);
+					IPS_SetProperty($_IPS['SELF'], "I_Trigger", $I_TriggerID);
 				}
 			}	
 			
