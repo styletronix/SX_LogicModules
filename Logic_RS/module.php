@@ -23,8 +23,7 @@ class Logic_RS extends IPSModule {
 			if ($this->ReadPropertyBoolean("remanent") == false){
 				SetValue($this->GetIDForIdent("Output"), false);
 			}
-			
-			$this->UpdateInput();			
+						
 			$this->SetStatus(102);
         }
 		
@@ -53,7 +52,22 @@ class Logic_RS extends IPSModule {
 		}
 		public function MessageSink($TimeStamp, $SenderID, $Message, $Data) {
 			if ($Message == 10603){
-				$this->UpdateInput();
+				$I_SetID = $this->ReadPropertyInteger("I_Set");
+				$I_ResetID = $this->ReadPropertyInteger("I_Reset");
+				
+				$I_Reset = false;
+				$I_Set = false;
+				
+				if (IPS_VariableExists($I_SetID)){ $I_Set = GetValueBoolean($I_SetID); }
+				if (IPS_VariableExists($I_ResetID)){ $I_Reset = GetValueBoolean($I_ResetID); }	
+			
+				if ($I_Reset == true and $SenderID == $I_ResetID){
+					SetValue($this->GetIDForIdent("Output"), false);
+					
+				}else if ($I_Set == true and $SenderID == $I_SetID){
+					SetValue($this->GetIDForIdent("Output"), true);
+					
+				}
 			}
 		}		
 		
