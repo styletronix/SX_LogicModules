@@ -40,8 +40,11 @@ class Logic_Delay extends IPSModule {
 			$I_TriggerID = $this->ReadPropertyInteger("I_Trigger");
 			$I_ResetID = $this->ReadPropertyInteger("I_Reset");
 				
-			$I_Trigger = GetValueBoolean($I_TriggerID);
-			$I_Reset = GetValueBoolean($I_ResetID);
+			$I_Trigger = false;
+			$I_Reset = false;
+			
+			if (IPS_VariableExists($I_TriggerID)){ $I_Trigger = GetValueBoolean($I_TriggerID); }
+			if (IPS_VariableExists($I_ResetID)){ $I_Reset = GetValueBoolean($I_ResetID); }			
 			
 			if ($I_Reset == true){
 				$this->SetTimerInterval("Timer_offDelay", 0);
