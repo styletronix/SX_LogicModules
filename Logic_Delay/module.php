@@ -43,42 +43,37 @@ class Logic_Delay extends IPSModule {
 			$I_Trigger = GetValueBoolean($I_TriggerID);
 			$I_Reset = GetValueBoolean($I_ResetID);
 			
-					if ($I_Reset == true){;
-						$this->SetTimerInterval("Timer_offDelay", 0);
-						$this->SetTimerInterval("Timer_onDelay", 0);
-						SetValue($this->GetIDForIdent("Output"), false);
-					}else if ($I_Trigger == true){
-						$this->SetTimerInterval("Timer_offDelay", 0);
-						$this->SetTimerInterval("Timer_onDelay", ($this->ReadPropertyFloat("OnDelay") * 1000) + 1);
-					}
+			if ($I_Reset == true){;
+				$this->SetTimerInterval("Timer_offDelay", 0);
+				$this->SetTimerInterval("Timer_onDelay", 0);
+				SetValue($this->GetIDForIdent("Output"), false);
+				
+			}else if ($I_Trigger == true){
+				$this->SetTimerInterval("Timer_offDelay", 0);
+				
+				$onDelay = $this->ReadPropertyFloat("OnDelay");
+				if ($onDelay > 0){
+					$this->SetTimerInterval("Timer_onDelay", ($onDelay * 1000) );
+				}else{
+					SetValue($this->GetIDForIdent("Output"), true);
+				}			
+			}else if ($I_Trigger == false){
+				$this->SetTimerInterval("Timer_onDelay", 0);
+				
+				$offDelay = $this->ReadPropertyFloat("OffDelay");
+				if ($offDelay > 0){
+					$this->SetTimerInterval("Timer_offDelay", ($offDelay * 1000) );
+				}else{
+					SetValue($this->GetIDForIdent("Output"), false);
+				}
 		}
 		public function MessageSink($TimeStamp, $SenderID, $Message, $Data) {
 			if ($Message == 10603){
 				$I_TriggerID = $this->ReadPropertyInteger("I_Trigger");
 				$I_ResetID = $this->ReadPropertyInteger("I_Reset");
 				
-				$I_Trigger = GetValueBoolean($I_TriggerID);
-				$I_Reset = GetValueBoolean($I_ResetID);
-								
-				if($SenderID == $I_TriggerID and $I_Reset == false){
-					if ($I_Trigger == true){
-							$this->SetTimerInterval("Timer_offDelay", 0);
-							$this->SetTimerInterval("Timer_onDelay", ($this->ReadPropertyFloat("OnDelay") * 1000) + 1);					
-					}else{
-							$this->SetTimerInterval("Timer_onDelay", 0);						
-							$this->SetTimerInterval("Timer_offDelay", ($this->ReadPropertyFloat("OffDelay") * 1000) + 1);											
-					}
-				}
-				
-				if($SenderID == $I_ResetID){
-					if ($I_Reset == true){;
-						$this->SetTimerInterval("Timer_offDelay", 0);
-						$this->SetTimerInterval("Timer_onDelay", 0);
-						SetValue($this->GetIDForIdent("Output"), false);
-					}else if ($I_Trigger == true){
-						$this->SetTimerInterval("Timer_offDelay", 0);
-						$this->SetTimerInterval("Timer_onDelay", ($this->ReadPropertyFloat("OnDelay") * 1000) + 1);
-					}					
+				if($SenderID == $I_TriggerID or $SenderID == $I_ResetID){
+					$this->UpdateInput();
 				}
 			}
 		}		
