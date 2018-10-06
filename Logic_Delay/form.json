@@ -13,12 +13,16 @@
     {
       "type": "NumberSpinner",
       "name": "OnDelay",
-      "caption": "Einschaltverzögerung"
+      "caption": "Einschaltverzögerung",
+	  "digits": 2,
+	  "suffix": "Sekunden"
     },
 	{
       "type": "NumberSpinner",
       "name": "OffDelay",
-      "caption": "Ausschaltverzögerung"
+      "caption": "Ausschaltverzögerung",
+	  "digits": 2,
+	  "suffix": "Sekunden"
     }
   ],
     "actions":
