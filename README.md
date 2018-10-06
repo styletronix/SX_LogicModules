@@ -17,6 +17,4 @@ Bei aktivieren der Variable "Setzen" wird der Ausgang eingeschaltet. Der Zustand
 
 Bei aktivieren der Variable "Rücksetzen" wird der Ausgang ausgeschaltet.
 
-Rücksetzen hat Vorrang vor Setzen. Werden beide Eingänge aktiviert, wird der Ausgang deaktiviert.
-
 Bei aktivierter Remanenz verbleibt der Ausgang im letzten Zustand wenn Symcon neu gestartet wird. Sonst wird der Ausgang bei einem Neustart deaktiviert.
