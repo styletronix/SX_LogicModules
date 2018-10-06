@@ -30,10 +30,10 @@ class Logic_Delay extends IPSModule {
 		
 		public function UpdateEvents(){	
 			$id = $this->ReadPropertyInteger("I_Trigger");
-			if ($id > 0) {$this->RegisterMessage(, 10603);}
+			if ($id > 0) {$this->RegisterMessage($id, 10603);}
 			
 			$id = $this->ReadPropertyInteger("I_Reset");
-			if ($id > 0) {$this->RegisterMessage(, 10603);}
+			if ($id > 0) {$this->RegisterMessage($id, 10603);}
 		}
 		public function MessageSink($TimeStamp, $SenderID, $Message, $Data) {
 			if ($Message == 10603){
