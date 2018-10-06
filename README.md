@@ -17,9 +17,6 @@ Bei jeder aktualisierung der Variable "Setzen" mit dem Wert True wird der Ausgan
 
 Bei jeder aktualisierung der Variable "Rücksetzen" wird der Ausgang ausgeschaltet.
 
+Bei jeder aktualisierung der Variable "Umschalten" wird der Ausgang umgeschaltet.
+
 Bei aktivierter Remanenz verbleibt der Ausgang im letzten Zustand wenn Symcon neu gestartet wird. Sonst wird der Ausgang bei einem Neustart deaktiviert.
-
-## Trigger
-Stromstoßrelais
-
-Bei jeder aktualisierung der Variable "Trigger" mit dem Wert True, wird der Ausgang umgeschaltet.
