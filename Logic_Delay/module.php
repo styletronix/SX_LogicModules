@@ -43,6 +43,8 @@ class Logic_Delay extends IPSModule {
 			$I_Trigger = false;
 			$I_Reset = false;
 			
+			if (!$I_TriggerID){ $I_TriggerID = IPS_GetParent($_IPS['SELF']); }			
+			
 			if (IPS_VariableExists($I_TriggerID)){ $I_Trigger = GetValueBoolean($I_TriggerID); }
 			if (IPS_VariableExists($I_ResetID)){ $I_Reset = GetValueBoolean($I_ResetID); }			
 			
