@@ -66,6 +66,7 @@ class Logic_Delay extends IPSModule {
 				}else{
 					SetValue($this->GetIDForIdent("Output"), false);
 				}
+			}
 		}
 		public function MessageSink($TimeStamp, $SenderID, $Message, $Data) {
 			if ($Message == 10603){
