@@ -64,6 +64,8 @@ Das Licht schalten wir, in dem wir für das Licht ein Trigger erstellen, welcher
 
 Nun erstellen wir in der Kategorie "und" eine weitere Kategorie "oder", in der wir Links zu den zwei Bewegungsmeldern ablegen. Diese Melder sind mit "oder" verknüpft. Nun geht das Licht an, wenn es draußen dunkel ist UND der Bewegungsmelder 1 ODER der Bewegungsmelder 2 eine Anwesenheit melden.
 
+Will man eine Verzögerung für das Ausschalten wenn keine Bewegung in Raum 1 erkannt wurde, löschen wir zuerst den Link zu Bewegungsmelder 1 aus dem "oder" Ordner und ersetzen diesen Link durch das LogicDelay-Modul. Als Trigger geben wir in der Konfiguration den Bewegungsmelder 1 an und eine beliebige Ausschaltverzögerung.
+
 
 ### Und warum das ganze?
 An Ereignisse können in IP-Symcon bereits weitere Bedingungen geknüpft werden. Allerdings kann dort UND/ODER nicht geschachtelt werden. Es wird ebenfalls nur auf Änderungen am Auslösenden Ereignis reagiert. Wenn man also zwei Signale hat die man mit einem UND verknüpfen möchte, kann man in Symcon zwar einstellen dass beim Ändern von Signal 1 ein Wert nur gesetzt wird wenn auch Signal 2 anliegt, aber was wenn Signal 2 später folgt? Dann wird das Ereignis nicht ausgelöst, obwohl später die Bedingungen, also Signal 1 und Signal 2, auf Ja stehen, da eben nur bei Änderung von Signal 1 eine Auswertung erfolgt.
