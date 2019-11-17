@@ -1,25 +1,6 @@
 {
   "elements": [
-	{
-      "type": "SelectVariable",
-      "name": "I_Set",
-      "caption": "Setzen"
-    },
-	{
-      "type": "SelectVariable",
-      "name": "I_Reset",
-      "caption": "Rücksetzen"
-    },
-	{
-      "type": "SelectVariable",
-      "name": "I_Trigger",
-      "caption": "Umschalten"
-    },
-	{
-      "type": "CheckBox",
-      "name": "remanent",
-      "caption": "Remanent"
-    }
+
   ],
     "actions":
     [ 
@@ -27,7 +8,5 @@
     "status":
     [
         { "code": 102, "icon": "active", "caption": "OK" },
-        { "code": 201, "icon": "error", "caption": "Authentication failed" },
-        { "code": 202, "icon": "error", "caption": "No credits left" }
     ]
 }
