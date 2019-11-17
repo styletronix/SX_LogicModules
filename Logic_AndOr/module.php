@@ -1,5 +1,5 @@
 <?php
-class Logic_AndOr extends IPSModule {
+class LogicAndOr extends IPSModule {
         public function __construct($InstanceID) {
             parent::__construct($InstanceID);
  
