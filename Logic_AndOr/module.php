@@ -31,9 +31,13 @@ class Logic_AndOr extends IPSModule {
 		}
 		
 		private function UpdateEventsRecursive($id){
+			$this->LogMessage("UpdateEventsRecursive ID: ".$id, KL_MESSAGE);
+			
 			foreach(IPS_GetChildrenIDs($id) as $key2) {
 					$itemObject = IPS_GetObject($key2);
 					$TargetID = -1;
+					
+					$this->LogMessage("UpdateEventsRecursive: ".print_r($itemObject, true), KL_MESSAGE);
 					
 					if ($itemObject["ObjectType"] == 0){
 						// Kategorie
@@ -88,6 +92,8 @@ class Logic_AndOr extends IPSModule {
 				$itemObject = IPS_GetObject($key2);
 				$TargetID = 0;
 				
+				$this->LogMessage("GetResultForGroup: ".print_r($itemObject, true), KL_MESSAGE);
+				
 				if ($itemObject["ObjectType"] == 0){
 					// Kategorie
 					$val = $this->GetResultForGroup($key2, $itemObject["ObjectName"]);
@@ -109,6 +115,7 @@ class Logic_AndOr extends IPSModule {
 					array_push($arrayResult, $val);
 				}
 			}
+			
 			
 	
 			if ($group == "und" or $group == "and"){
