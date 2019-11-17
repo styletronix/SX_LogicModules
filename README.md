@@ -26,3 +26,30 @@ Bei aktivierter Remanenz verbleibt der Ausgang im letzten Zustand wenn Symcon ne
 #### Impulsgeber
 
 Bei aktivieren des Eingangs wird der Ausgang sofort auf "Ein" gestellt. Anschließend wechselt der Ausgang zwischen Aus und Ein nach dem eingestellten Zeitmuster.
+
+## AndOr
+### Logikverknüpfungen
+
+Das Modul hat keine Konfiguration. Um dieses Modul zu nutzen, muss man im Modul eine "Ordnerstruktur" anlegen.
+Die Ordner können die Bezeichnung "und" oder "oder" haben. Alternativ ist auch "and" und "or" möglich.
+
+In den Ordnern können variablen oder Links zu Variablen abgelegt werden.
+Links oder Variablen in einem Ordner, welcher mit "und" beschriftet sind, werden mit Logisch-UND verknüpft. Ordner mit "oder" werden entsprechend mit der Lokigkunktion ODER verknüpft.
+
+Ordner können beliebig tief ineinander verschachtelt werden. Direkt auf erster Ebene in der Instanz ist allerdings nur ein Ordner mit "und" oder "oder" erlaubt.
+
+Das Ergebnis wird in der Variable "Ausgabe" dargestellt.
+
+### Beispiel
+Instanz
+|- und
+    |- Variable 1 = true
+    |- Variable 2 = true
+    |- oder
+        |- Variable 3 = true
+        |- Variable 4 = false
+      
+Ausgabe: true
+
+Variable 3 und 4 werden mit ODER verknüpft. Das Ergebnis ist TRUE.
+Variable 1, 2 und das Ergebnis der oder-Verknüpfung werden mit UND verknüpft. Das End-Ergebnis ist TRUE.
