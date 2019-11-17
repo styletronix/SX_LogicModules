@@ -20,6 +20,8 @@ class Logic_AndOr extends IPSModule {
         }
 		
 		private function UpdateEvents(){	
+			$this->LogMessage("UpdateEvents", KL_DEBUG);
+			
 			$this->RegisterMessage($this->InstanceID, 10412);
 			$this->RegisterMessage($this->InstanceID, 10413);
 		
@@ -34,7 +36,7 @@ class Logic_AndOr extends IPSModule {
 		}
 		
 		private function UpdateResult(){
-
+			$this->LogMessage("UpdateResult", KL_DEBUG);
 		}
 		
 		public function MessageSink($TimeStamp, $SenderID, $Message, $Data) {
@@ -67,6 +69,8 @@ class Logic_AndOr extends IPSModule {
 		}		
 		
 		public function RequestAction($Ident, $Value) {
+			$this->LogMessage("UpdateResult", KL_DEBUG);
+			
     		switch($Ident) {
                 case "TimerCallback":
                     $this->onTimerElapsed($Value);
