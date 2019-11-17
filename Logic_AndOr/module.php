@@ -20,7 +20,7 @@ class Logic_AndOr extends IPSModule {
         }
 		
 		private function UpdateEvents(){	
-			$this->LogMessage("UpdateEvents", KL_DEBUG);
+			$this->LogMessage("UpdateEvents", KL_MESSAGE);
 			
 			$this->RegisterMessage($this->InstanceID, 10412);
 			$this->RegisterMessage($this->InstanceID, 10413);
@@ -36,11 +36,11 @@ class Logic_AndOr extends IPSModule {
 		}
 		
 		private function UpdateResult(){
-			$this->LogMessage("UpdateResult", KL_DEBUG);
+			$this->LogMessage("UpdateResult", KL_MESSAGE);
 		}
 		
 		public function MessageSink($TimeStamp, $SenderID, $Message, $Data) {
-			$this->LogMessage("Message from SenderID ".$SenderID." with Message ".$Message."\r\n Data: ".print_r($Data, true), KL_DEBUG);
+			$this->LogMessage("Message from SenderID ".$SenderID." with Message ".$Message."\r\n Data: ".print_r($Data, true), KL_MESSAGE);
 			
 			if ($Message == 10601){
 				//Variable wurde erstellt.
@@ -69,7 +69,7 @@ class Logic_AndOr extends IPSModule {
 		}		
 		
 		public function RequestAction($Ident, $Value) {
-			$this->LogMessage("UpdateResult", KL_DEBUG);
+			$this->LogMessage("UpdateResult", KL_MESSAGE);
 			
     		switch($Ident) {
                 case "TimerCallback":
