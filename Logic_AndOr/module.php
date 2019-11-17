@@ -66,7 +66,7 @@ class Logic_AndOr extends IPSModule {
 				$itemObject = IPS_GetObject($key2);
 				if ($itemObject["ObjectType"] == 0){
 					// Kategorie
-					$result = $this->GetResultForGroup($key2, $itemObject["ObjectName"])
+					$result = $this->GetResultForGroup($key2, $itemObject["ObjectName"]);
 				}
 			}
 			SetValue($this->GetIDForIdent("Output"), $result);
