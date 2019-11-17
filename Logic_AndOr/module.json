@@ -1,0 +1,13 @@
+{
+    "id": "{DB29DFA5-FDE3-4ABE-A87B-ED825333E05A}",
+    "name": "Logic_AndOr",
+    "type": 3,
+    "vendor": "Styletronix.net",
+  "aliases": [
+    "Logic_AndOr"
+  ],  
+    "parentRequirements": [],
+    "childRequirements": [],
+    "implemented": [],
+    "prefix": "SXLogic_AndOr"
+}
