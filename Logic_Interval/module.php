@@ -1,5 +1,5 @@
-<?
-class Logic_Interval extends IPSModule {
+<?php
+class LogicInterval extends IPSModule {
         public function __construct($InstanceID) {
             parent::__construct($InstanceID);
  
