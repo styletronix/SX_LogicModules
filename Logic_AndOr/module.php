@@ -20,7 +20,7 @@ class Logic_AndOr extends IPSModule {
         }
 		
 		private function UpdateEvents(){	
-			$this->LogMessage("UpdateEvents", KL_MESSAGE);
+			$this->SendDebug("UpdateEvents", "", 0);
 			
 			$this->RegisterMessage($this->InstanceID, 10412);
 			$this->RegisterMessage($this->InstanceID, 10413);
@@ -31,13 +31,13 @@ class Logic_AndOr extends IPSModule {
 		}
 		
 		private function UpdateEventsRecursive($id){
-			$this->LogMessage("UpdateEventsRecursive ID: ".$id, KL_MESSAGE);
+			$this->SendDebug("UpdateEventsRecursive", "ID: ".$id, 0);
 			
 			foreach(IPS_GetChildrenIDs($id) as $key2) {
 					$itemObject = IPS_GetObject($key2);
 					$TargetID = -1;
 					
-					$this->LogMessage("UpdateEventsRecursive: ".print_r($itemObject, true), KL_MESSAGE);
+					$this->SendDebug("UpdateEventsRecursive", print_r($itemObject, true), 0);
 					
 					if ($itemObject["ObjectType"] == 0){
 						// Kategorie
@@ -70,7 +70,7 @@ class Logic_AndOr extends IPSModule {
 		}
 		
 		private function UpdateResult(){
-			$this->LogMessage("UpdateResult", KL_MESSAGE);
+			$this->SendDebug("UpdateResult", "Start", 0);
 			
 			$result = 0;
 			foreach(IPS_GetChildrenIDs($this->InstanceID) as $key2) {
@@ -82,7 +82,7 @@ class Logic_AndOr extends IPSModule {
 			}
 			SetValue($this->GetIDForIdent("Output"), $result);
 			
-			$this->LogMessage("UpdateResult: ".$result, KL_MESSAGE);
+			$this->SendDebug("UpdateResult", $result, 0);
 		}
 		
 		private function GetResultForGroup($id, $group){		
@@ -91,9 +91,7 @@ class Logic_AndOr extends IPSModule {
 			foreach(IPS_GetChildrenIDs($id) as $key2) {
 				$itemObject = IPS_GetObject($key2);
 				$TargetID = 0;
-				
-				$this->LogMessage("GetResultForGroup: ".print_r($itemObject, true), KL_MESSAGE);
-				
+								
 				if ($itemObject["ObjectType"] == 0){
 					// Kategorie
 					$val = $this->GetResultForGroup($key2, $itemObject["ObjectName"]);
@@ -119,26 +117,34 @@ class Logic_AndOr extends IPSModule {
 			
 	
 			if ($group == "und" or $group == "and"){
+				$this->SendDebug("GetResultForGroup ". $id, "Grouping: AND", 0);
 				foreach($arrayResult as $val2) {
 					if ($val2 == false){
+						$this->SendDebug("GetResultForGroup ". $id, "False", 0);	
 						return false;
 					}
 				}
+				$this->SendDebug("GetResultForGroup ". $id, "True", 0);	
 				return true;
 			}
 			
 			if ($group == "oder" or $group == "or"){
+				$this->SendDebug("GetResultForGroup ". $id, "Grouping: OR", 0);
 				foreach($arrayResult as $val2) {
 					if ($val2 == true){
+						$this->SendDebug("GetResultForGroup ". $id, "True", 0);	
 						return true;
 					}
 				}
+				$this->SendDebug("GetResultForGroup ". $id, "False", 0);	
 				return false;
 			}
+			
+			$this->SendDebug("GetResultForGroup ". $id, "Grouping: UNKNOWN", 0);
 		}
 		
 		public function MessageSink($TimeStamp, $SenderID, $Message, $Data) {
-			$this->LogMessage("Message from SenderID ".$SenderID." with Message ".$Message."\r\n Data: ".print_r($Data, true), KL_MESSAGE);
+			$this->SendDebug("MessageSink ", "Message from SenderID ".$SenderID." with Message ".$Message."\r\n Data: ".print_r($Data, true), 0);
 					
 			if ($Message == 10412){
 				//Untergeordnetes Objekt hinzugefügt.
@@ -156,9 +162,7 @@ class Logic_AndOr extends IPSModule {
 			}
 		}		
 		
-		public function RequestAction($Ident, $Value) {
-			$this->LogMessage("UpdateResult", KL_MESSAGE);
-			
+		public function RequestAction($Ident, $Value) {			
     		switch($Ident) {
                 case "TimerCallback":
                     $this->onTimerElapsed($Value);
