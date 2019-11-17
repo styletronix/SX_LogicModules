@@ -41,13 +41,13 @@ Ordner können beliebig tief ineinander verschachtelt werden. Direkt auf erster 
 Das Ergebnis wird in der Variable "Ausgabe" dargestellt.
 
 ### Beispiel
-Instanz
-|- und
-    |- Variable 1 = true
-    |- Variable 2 = true
-    |- oder
-        |- Variable 3 = true
-        |- Variable 4 = false
+Instanz\
+&nbsp;|- und\
+&nbsp;&nbsp;&nbsp;&nbsp;    |- Variable 1 = true\
+&nbsp;&nbsp;&nbsp;&nbsp;    |- Variable 2 = true\
+&nbsp;&nbsp;&nbsp;&nbsp;    |- oder\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       |- Variable 3 = true\
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       |- Variable 4 = false
       
 Ausgabe: true
 
