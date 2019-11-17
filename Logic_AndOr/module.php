@@ -20,36 +20,132 @@ class Logic_AndOr extends IPSModule {
         }
 		
 		private function UpdateEvents(){	
+			$this->SendDebug("UpdateEvents", "", 0);
+			
 			$this->RegisterMessage($this->InstanceID, 10412);
 			$this->RegisterMessage($this->InstanceID, 10413);
 		
-			// $arr = $this->GetListItems("actors");
-			// if ($arr){
-				// foreach($arr as $key1) {
-					// $this->RegisterMessage($key1["InstanceID"], 10603);
-				// }
-			// }	
+			$this->UpdateEventsRecursive($this->InstanceID);	
 			
 			$this->UpdateResult();
 		}
 		
+		private function UpdateEventsRecursive($id){
+			$this->SendDebug("UpdateEventsRecursive", "ID: ".$id, 0);
+			
+			foreach(IPS_GetChildrenIDs($id) as $key2) {
+					$itemObject = IPS_GetObject($key2);
+					$TargetID = -1;
+					
+					$this->SendDebug("UpdateEventsRecursive", print_r($itemObject, true), 0);
+					
+					if ($itemObject["ObjectType"] == 0){
+						// Kategorie
+						$this->RegisterMessage($key2, 10412);
+						$this->RegisterMessage($key2, 10413);
+						$this->UpdateEventsRecursive($key2);
+					}
+					
+					if ($id == $this->InstanceID){
+						// Do not Track changes on variables located inside the instance.
+						continue;
+					}
+					
+					if ($itemObject["ObjectType"] == 6){
+						// Link
+						$TargetID = IPS_GetLink($key2)["TargetID"];
+					}
+					
+					if ($itemObject["ObjectType"] == 2){
+						// Variable
+						$TargetID = $key2;
+					}
+					
+					if ($TargetID > 0){
+						if (IPS_VariableExists($TargetID)){
+							$this->RegisterMessage($TargetID, 10603);
+						}	
+					}
+			}		
+		}
+		
 		private function UpdateResult(){
-
+			$this->SendDebug("UpdateResult", "Start", 0);
+			
+			$result = 0;
+			foreach(IPS_GetChildrenIDs($this->InstanceID) as $key2) {
+				$itemObject = IPS_GetObject($key2);
+				if ($itemObject["ObjectType"] == 0){
+					// Kategorie
+					$result = $this->GetResultForGroup($key2, $itemObject["ObjectName"]);
+				}
+			}
+			SetValue($this->GetIDForIdent("Output"), $result);
+			
+			$this->SendDebug("UpdateResult", $result, 0);
+		}
+		
+		private function GetResultForGroup($id, $group){		
+			$arrayResult = [];
+			
+			foreach(IPS_GetChildrenIDs($id) as $key2) {
+				$itemObject = IPS_GetObject($key2);
+				$TargetID = 0;
+								
+				if ($itemObject["ObjectType"] == 0){
+					// Kategorie
+					$val = $this->GetResultForGroup($key2, $itemObject["ObjectName"]);
+					array_push($arrayResult, $val);
+				}
+					
+				if ($itemObject["ObjectType"] == 6){
+					// Link
+					$TargetID = IPS_GetLink($key2)["TargetID"];
+				}
+					
+				if ($itemObject["ObjectType"] == 2){
+					// Variable
+					$TargetID = $key2;
+				}
+					
+				if (IPS_VariableExists($TargetID)){
+					$val = GetValue($TargetID);
+					array_push($arrayResult, $val);
+				}
+			}
+			
+			
+	
+			if ($group == "und" or $group == "and"){
+				$this->SendDebug("GetResultForGroup ". $id, "Grouping: AND", 0);
+				foreach($arrayResult as $val2) {
+					if ($val2 == false){
+						$this->SendDebug("GetResultForGroup ". $id, "False", 0);	
+						return false;
+					}
+				}
+				$this->SendDebug("GetResultForGroup ". $id, "True", 0);	
+				return true;
+			}
+			
+			if ($group == "oder" or $group == "or"){
+				$this->SendDebug("GetResultForGroup ". $id, "Grouping: OR", 0);
+				foreach($arrayResult as $val2) {
+					if ($val2 == true){
+						$this->SendDebug("GetResultForGroup ". $id, "True", 0);	
+						return true;
+					}
+				}
+				$this->SendDebug("GetResultForGroup ". $id, "False", 0);	
+				return false;
+			}
+			
+			$this->SendDebug("GetResultForGroup ". $id, "Grouping: UNKNOWN", 0);
 		}
 		
 		public function MessageSink($TimeStamp, $SenderID, $Message, $Data) {
-			$this->LogMessage("Message from SenderID ".$SenderID." with Message ".$Message."\r\n Data: ".print_r($Data, true), KL_DEBUG);
-			
-			if ($Message == 10601){
-				//Variable wurde erstellt.
-				$this->UpdateEvents();
-			}
-			
-			if ($Message == 11001){
-				//Link wurde erstellt.
-				$this->UpdateEvents();
-			}
-			
+			$this->SendDebug("MessageSink ", "Message from SenderID ".$SenderID." with Message ".$Message."\r\n Data: ".print_r($Data, true), 0);
+					
 			if ($Message == 10412){
 				//Untergeordnetes Objekt hinzugefügt.
 				$this->UpdateEvents();
@@ -66,7 +162,7 @@ class Logic_AndOr extends IPSModule {
 			}
 		}		
 		
-		public function RequestAction($Ident, $Value) {
+		public function RequestAction($Ident, $Value) {			
     		switch($Ident) {
                 case "TimerCallback":
                     $this->onTimerElapsed($Value);
