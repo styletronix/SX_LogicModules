@@ -28,13 +28,13 @@ class Logic_RS extends IPSModule {
 			$this->SetStatus(102);
         }
 		
-		public function Action_Set(){
+		public function SetOutput(){
 			SetValue($this->GetIDForIdent("Output"), true);
 		}
-		public function Action_Reset(){
+		public function ResetOutput(){
 			SetValue($this->GetIDForIdent("Output"), false);
 		}
-		public function Action_Toggle(){
+		public function ToggleOutput(){
 			$val = GetValue($this->GetIDForIdent("Output"));
 			SetValue($this->GetIDForIdent("Output"), ($val == false));
 		}
