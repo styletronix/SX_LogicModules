@@ -48,7 +48,7 @@ class Logic_AndOr extends IPSModule {
 					
 					if ($id == $this->InstanceID){
 						// Do not Track changes on variables located inside the instance.
-						return;
+						continue;
 					}
 					
 					if ($itemObject["ObjectType"] == 6){
