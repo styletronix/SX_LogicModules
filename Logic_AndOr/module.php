@@ -1,5 +1,5 @@
 <?php
-class Logic_RS extends IPSModule {
+class Logic_AndOr extends IPSModule {
         public function __construct($InstanceID) {
             parent::__construct($InstanceID);
  
@@ -8,11 +8,6 @@ class Logic_RS extends IPSModule {
         public function Create() {
             parent::Create();
 
-			$this->RegisterPropertyInteger("I_Set", "0");
-			$this->RegisterPropertyInteger("I_Reset", "0");
-			$this->RegisterPropertyInteger("I_Trigger", "0");
-			$this->RegisterPropertyBoolean("remanent", true);
-			
 			$this->RegisterVariableBoolean("Output", "Ausgang", "~Switch");
         }
 		
@@ -21,69 +16,167 @@ class Logic_RS extends IPSModule {
 				
 			$this->UpdateEvents();	
 			
-			if ($this->ReadPropertyBoolean("remanent") == false){
-				SetValue($this->GetIDForIdent("Output"), false);
-			}
-						
 			$this->SetStatus(102);
         }
 		
 		private function UpdateEvents(){	
-			$id = $this->ReadPropertyInteger("I_Set");
-			if ($id > 0) {$this->RegisterMessage($id, 10603);}
+			$this->SendDebug("UpdateEvents", "", 0);
 			
-			$id = $this->ReadPropertyInteger("I_Reset");
-			if ($id > 0) {$this->RegisterMessage($id, 10603);}		
-
-			$id = $this->ReadPropertyInteger("I_Trigger");
-			if ($id > 0) {$this->RegisterMessage($id, 10603);}				
+			$this->RegisterMessage($this->InstanceID, 10412);
+			$this->RegisterMessage($this->InstanceID, 10413);
+		
+			$this->UpdateEventsRecursive($this->InstanceID);	
+			
+			$this->UpdateResult();
 		}
-		private function UpdateInput(){
-				$I_SetID = $this->ReadPropertyInteger("I_Set");
-				$I_ResetID = $this->ReadPropertyInteger("I_Reset");
-				
-				$I_Reset = false;
-				$I_Set = false;
-				
-				if (IPS_VariableExists($I_SetID)){ $I_Set = GetValueBoolean($I_SetID); }
-				if (IPS_VariableExists($I_ResetID)){ $I_Reset = GetValueBoolean($I_ResetID); }	
+		
+		private function UpdateEventsRecursive($id){
+			$this->SendDebug("UpdateEventsRecursive", "ID: ".$id, 0);
 			
-				if ($I_Reset == true){
-					SetValue($this->GetIDForIdent("Output"), false);
-				}else if ($I_Set == true){
-					SetValue($this->GetIDForIdent("Output"), true);
+			foreach(IPS_GetChildrenIDs($id) as $key2) {
+					$itemObject = IPS_GetObject($key2);
+					$TargetID = -1;
+					
+					$this->SendDebug("UpdateEventsRecursive", print_r($itemObject, true), 0);
+					
+					if ($itemObject["ObjectType"] == 0){
+						// Kategorie
+						$this->RegisterMessage($key2, 10412);
+						$this->RegisterMessage($key2, 10413);
+						$this->UpdateEventsRecursive($key2);
+					}
+					
+					if ($id == $this->InstanceID){
+						// Do not Track changes on variables located inside the instance.
+						continue;
+					}
+					
+					if ($itemObject["ObjectType"] == 1){
+						// Instanz
+						$this->RegisterMessage($key2, 10412);
+						$this->RegisterMessage($key2, 10413);
+						// Wenn die Instanz ein Objekt mit dem Ident "Output" hat, wird dessen Wert verwendet.
+						$TargetID = IPS_GetObjectIDByIdent("Output", $key2);						
+					}
+					
+					if ($itemObject["ObjectType"] == 6){
+						// Link
+						$TargetID = IPS_GetLink($key2)["TargetID"];
+					}
+					
+					if ($itemObject["ObjectType"] == 2){
+						// Variable
+						$TargetID = $key2;
+					}
+					
+					if ($TargetID > 0){
+						if (IPS_VariableExists($TargetID)){
+							$this->RegisterMessage($TargetID, 10603);
+						}	
+					}
+			}		
+		}
+		
+		private function UpdateResult(){
+			$this->SendDebug("UpdateResult", "Start", 0);
+			
+			$result = 0;
+			foreach(IPS_GetChildrenIDs($this->InstanceID) as $key2) {
+				$itemObject = IPS_GetObject($key2);
+				if ($itemObject["ObjectType"] == 0){
+					// Kategorie
+					$result = $this->GetResultForGroup($key2, $itemObject["ObjectName"]);
 				}
+			}
+			SetValue($this->GetIDForIdent("Output"), $result);
+			
+			$this->SendDebug("UpdateResult", $result, 0);
 		}
+		
+		private function GetResultForGroup($id, $group){		
+			$arrayResult = [];
+			
+			foreach(IPS_GetChildrenIDs($id) as $key2) {
+				$itemObject = IPS_GetObject($key2);
+				$TargetID = 0;
+								
+				if ($itemObject["ObjectType"] == 0){
+					// Kategorie
+					$val = $this->GetResultForGroup($key2, $itemObject["ObjectName"]);
+					array_push($arrayResult, $val);
+				}
+				
+				if ($itemObject["ObjectType"] == 1){
+						// Instanz
+						// Wenn die Instanz ein Objekt mit dem Ident "Output" hat, wird dessen Wert verwendet.
+						$TargetID = IPS_GetObjectIDByIdent("Output", $key2);						
+					}
+				
+				if ($itemObject["ObjectType"] == 6){
+					// Link
+					$TargetID = IPS_GetLink($key2)["TargetID"];
+				}
+					
+				if ($itemObject["ObjectType"] == 2){
+					// Variable
+					$TargetID = $key2;
+				}
+					
+				if (IPS_VariableExists($TargetID)){
+					$val = GetValue($TargetID);
+					array_push($arrayResult, $val);
+				}
+			}
+			
+			
+	
+			if ($group == "und" or $group == "and"){
+				$this->SendDebug("GetResultForGroup ". $id, "Grouping: AND", 0);
+				foreach($arrayResult as $val2) {
+					if ($val2 == false){
+						$this->SendDebug("GetResultForGroup ". $id, "False", 0);	
+						return false;
+					}
+				}
+				$this->SendDebug("GetResultForGroup ". $id, "True", 0);	
+				return true;
+			}
+			
+			if ($group == "oder" or $group == "or"){
+				$this->SendDebug("GetResultForGroup ". $id, "Grouping: OR", 0);
+				foreach($arrayResult as $val2) {
+					if ($val2 == true){
+						$this->SendDebug("GetResultForGroup ". $id, "True", 0);	
+						return true;
+					}
+				}
+				$this->SendDebug("GetResultForGroup ". $id, "False", 0);	
+				return false;
+			}
+			
+			$this->SendDebug("GetResultForGroup ". $id, "Grouping: UNKNOWN", 0);
+		}
+		
 		public function MessageSink($TimeStamp, $SenderID, $Message, $Data) {
-			if ($Message == 10603){
-				$I_SetID = $this->ReadPropertyInteger("I_Set");
-				$I_ResetID = $this->ReadPropertyInteger("I_Reset");
-				$I_TriggerID = $this->ReadPropertyInteger("I_Trigger");
-				
-				$I_Reset = false;
-				$I_Set = false;
-				$I_Trigger = false;
-				
-				
-				if (IPS_VariableExists($I_SetID)){ $I_Set = GetValueBoolean($I_SetID); }
-				if (IPS_VariableExists($I_ResetID)){ $I_Reset = GetValueBoolean($I_ResetID); }	
-				if (IPS_VariableExists($I_TriggerID)){ $I_Trigger = GetValueBoolean($I_TriggerID); }
+			$this->SendDebug("MessageSink ", "Message from SenderID ".$SenderID." with Message ".$Message."\r\n Data: ".print_r($Data, true), 0);
+					
+			if ($Message == 10412){
+				//Untergeordnetes Objekt hinzugefügt.
+				$this->UpdateEvents();
+			}
 			
-
-				if ($I_Reset == true and $SenderID == $I_ResetID){
-					SetValue($this->GetIDForIdent("Output"), false);
-					
-				}else if ($I_Set == true and $SenderID == $I_SetID){
-					SetValue($this->GetIDForIdent("Output"), true);
-					
-				}else if ($I_Trigger == true and $SenderID == $I_TriggerID){
-					$val = GetValue($this->GetIDForIdent("Output"));
-					SetValue($this->GetIDForIdent("Output"), ($val == false));
-				}
+			if ($Message == 10413){
+				//Untergeordnetes Objekt entfernt.
+				$this->UpdateEvents();
+			}
+			
+			if ($Message == 10603){
+				//Variable wurde geändert.
+				$this->UpdateResult();
 			}
 		}		
 		
-		public function RequestAction($Ident, $Value) {
+		public function RequestAction($Ident, $Value) {			
     		switch($Ident) {
                 case "TimerCallback":
                     $this->onTimerElapsed($Value);
@@ -94,5 +187,18 @@ class Logic_RS extends IPSModule {
 
     		}
  		}
+		
+		private Function onTimerElapsed(string $Timer){
+			$this->SetTimerInterval ($Timer, 0);
+			
+			switch($Timer) {
+				case "Timer_onDelay":						
+					break;					
+					
+				default:
+					throw new Exception("Invalid Ident");
+
+    		}
+		}
     }
 ?>
