@@ -34,7 +34,7 @@ Das Modul hat keine Konfiguration. Um dieses Modul zu nutzen, muss man im Modul 
 Die Ordner können die Bezeichnung "und" oder "oder" haben. Alternativ ist auch "and" und "or" möglich.
 
 In den Ordnern können variablen oder Links zu Variablen abgelegt werden.
-Links oder Variablen in einem Ordner, welcher mit "und" beschriftet sind, werden mit Logisch-UND verknüpft. Ordner mit "oder" werden entsprechend mit der Lokigkunktion ODER verknüpft.
+Links oder Variablen in einem Ordner, welcher mit "und" beschriftet sind, werden mit Logisch-UND verknüpft. Ordner mit "oder" werden entsprechend mit der Logikfunktion ODER verknüpft.
 
 Ordner können beliebig tief ineinander verschachtelt werden. Direkt auf erster Ebene in der Instanz ist allerdings nur ein Ordner mit "und" oder "oder" erlaubt.
 
