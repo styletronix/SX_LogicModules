@@ -1,5 +1,5 @@
 <?php
-class Logic_RS extends IPSModule {
+class LogicRS extends IPSModule {
         public function __construct($InstanceID) {
             parent::__construct($InstanceID);
  
