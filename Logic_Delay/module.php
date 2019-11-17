@@ -1,5 +1,5 @@
-<?
-class Logic_Delay extends IPSModule {
+<?php
+class LogicDelay extends IPSModule {
         public function __construct($InstanceID) {
             parent::__construct($InstanceID);
  

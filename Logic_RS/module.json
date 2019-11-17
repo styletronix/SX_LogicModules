@@ -1,13 +1,13 @@
 {
-    "id": "{95de5613-5e56-4434-82cb-9bb8b90f4a8e}",
-    "name": "Logic_RS",
+    "id": "{95DE5613-5E56-4434-82CB-9BB8B90F4A8E}",
+    "name": "LogicRS",
     "type": 3,
     "vendor": "Styletronix.net",
   "aliases": [
-    "Logic_RS"
+    "LogicRS"
   ],  
     "parentRequirements": [],
     "childRequirements": [],
     "implemented": [],
-    "prefix": "SXLogic_RS"
+    "prefix": "SXLogicRS"
 }

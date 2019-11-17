@@ -1,5 +1,5 @@
 <?php
-class Logic_AndOr extends IPSModule {
+class LogicAndOr extends IPSModule {
         public function __construct($InstanceID) {
             parent::__construct($InstanceID);
  
@@ -19,7 +19,8 @@ class Logic_AndOr extends IPSModule {
 			$this->SetStatus(102);
         }
 		
-		private function UpdateEvents(){	
+		
+		public function UpdateEvents(){	
 			$this->SendDebug("UpdateEvents", "", 0);
 			
 			$this->RegisterMessage($this->InstanceID, 10412);
@@ -49,6 +50,14 @@ class Logic_AndOr extends IPSModule {
 					if ($id == $this->InstanceID){
 						// Do not Track changes on variables located inside the instance.
 						continue;
+					}
+					
+					if ($itemObject["ObjectType"] == 1){
+						// Instanz
+						$this->RegisterMessage($key2, 10412);
+						$this->RegisterMessage($key2, 10413);
+						// Wenn die Instanz ein Objekt mit dem Ident "Output" hat, wird dessen Wert verwendet.
+						$TargetID = IPS_GetObjectIDByIdent("Output", $key2);						
 					}
 					
 					if ($itemObject["ObjectType"] == 6){
@@ -97,7 +106,13 @@ class Logic_AndOr extends IPSModule {
 					$val = $this->GetResultForGroup($key2, $itemObject["ObjectName"]);
 					array_push($arrayResult, $val);
 				}
-					
+				
+				if ($itemObject["ObjectType"] == 1){
+						// Instanz
+						// Wenn die Instanz ein Objekt mit dem Ident "Output" hat, wird dessen Wert verwendet.
+						$TargetID = IPS_GetObjectIDByIdent("Output", $key2);						
+					}
+				
 				if ($itemObject["ObjectType"] == 6){
 					// Link
 					$TargetID = IPS_GetLink($key2)["TargetID"];

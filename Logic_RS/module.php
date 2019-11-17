@@ -1,5 +1,5 @@
-<?
-class Logic_RS extends IPSModule {
+<?php
+class LogicRS extends IPSModule {
         public function __construct($InstanceID) {
             parent::__construct($InstanceID);
  
@@ -27,6 +27,17 @@ class Logic_RS extends IPSModule {
 						
 			$this->SetStatus(102);
         }
+		
+		public function SetOutput(){
+			SetValue($this->GetIDForIdent("Output"), true);
+		}
+		public function ResetOutput(){
+			SetValue($this->GetIDForIdent("Output"), false);
+		}
+		public function ToggleOutput(){
+			$val = GetValue($this->GetIDForIdent("Output"));
+			SetValue($this->GetIDForIdent("Output"), ($val == false));
+		}
 		
 		private function UpdateEvents(){	
 			$id = $this->ReadPropertyInteger("I_Set");
