@@ -42,6 +42,11 @@ class Logic_AndOr extends IPSModule {
 						$this->UpdateEventsRecursive($key2);
 					}
 					
+					if ($id == $this->InstanceID){
+						// Do not Track changes on variables located inside the instance.
+						return;
+					}
+					
 					if ($itemObject["ObjectType"] == 6){
 						// Link
 						$TargetID = IPS_GetLink($key2)["TargetID"];
