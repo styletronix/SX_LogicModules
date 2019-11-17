@@ -19,7 +19,8 @@ class LogicAndOr extends IPSModule {
 			$this->SetStatus(102);
         }
 		
-		private function UpdateEvents(){	
+		
+		public function UpdateEvents(){	
 			$this->SendDebug("UpdateEvents", "", 0);
 			
 			$this->RegisterMessage($this->InstanceID, 10412);
