@@ -143,6 +143,19 @@ class LogicAndOr extends IPSModule {
 				return true;
 			}
 			
+			if ($group == "nand"){
+				$this->SendDebug("GetResultForGroup ". $id, "Grouping: NAND", 0);
+				foreach($arrayResult as $val2) {
+					if ($val2 == false){
+						$this->SendDebug("GetResultForGroup ". $id, "True", 0);	
+						return true;
+					}
+				}
+				$this->SendDebug("GetResultForGroup ". $id, "False", 0);	
+				return false;
+			}
+			
+			
 			if ($group == "oder" or $group == "or"){
 				$this->SendDebug("GetResultForGroup ". $id, "Grouping: OR", 0);
 				foreach($arrayResult as $val2) {
@@ -153,6 +166,48 @@ class LogicAndOr extends IPSModule {
 				}
 				$this->SendDebug("GetResultForGroup ". $id, "False", 0);	
 				return false;
+			}
+			
+			if ($group == "nor"){
+				$this->SendDebug("GetResultForGroup ". $id, "Grouping: NOR", 0);
+				foreach($arrayResult as $val2) {
+					if ($val2 == true){
+						$this->SendDebug("GetResultForGroup ". $id, "False", 0);	
+						return false;
+					}
+				}
+				$this->SendDebug("GetResultForGroup ". $id, "True", 0);	
+				return true;
+			}
+			
+			if ($group == "nicht" or $group == "not"){
+				$this->SendDebug("GetResultForGroup ". $id, "Grouping: NOT", 0);
+				foreach($arrayResult as $val2) {
+					if ($val2 == true){
+						$this->SendDebug("GetResultForGroup ". $id, "False", 0);	
+						return false;
+					}
+				}
+				$this->SendDebug("GetResultForGroup ". $id, "True", 0);	
+				return true;
+			}
+			
+			if ($group == "xor"){
+				$temp = false;
+				
+				$this->SendDebug("GetResultForGroup ". $id, "Grouping: XOR", 0);
+				foreach($arrayResult as $val2) {
+					if ($val2 == true){
+						if ($temp == false){
+							$temp = true;
+						}else{
+							$this->SendDebug("GetResultForGroup ". $id, "False", 0);	
+							return false;
+						}						
+					}
+				}
+				$this->SendDebug("GetResultForGroup ". $id, $temp, 0);	
+				return $temp;
 			}
 			
 			$this->SendDebug("GetResultForGroup ". $id, "Grouping: UNKNOWN", 0);
