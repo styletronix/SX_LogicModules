@@ -11,6 +11,50 @@ Ordner können beliebig tief ineinander verschachtelt werden. Direkt auf erster 
 
 Das Ergebnis wird in der Variable "Ausgabe" dargestellt.
 
+### Unterstütze Logik-Verknüpfungen ( Orderbezeichnunge)
+
+#### Und
+und / and
+
+Der Ausgang des AND nimmt nur dann den Zustand 1 an,
+wenn alle Eingänge den Zustand 1 haben
+
+
+#### ODER
+oder / or
+
+Der Ausgang des OR nimmt dann den Zustand 1 an, wenn
+mindestens ein Eingang den Zustand 1 hat
+
+
+### ODER nicht
+nor
+
+Der Ausgang des NOR nimmt nur dann den Zustand 1 an,
+wenn alle Eingänge den Zustand 0 haben
+
+
+#### NICHT
+nicht / not
+
+Der Ausgang nimmt den Zustand 1 an, wenn der Eingang
+den Zustand 0 hat
+
+
+#### Exklusives ODER
+xor  
+
+Der Ausgang des XOR nimmt den Zustand 1 an, wenn die
+Eingänge unterschiedliche Zustände besitzen
+
+
+#### UND Nicht
+nand
+
+Der Ausgang des NAND nimmt nur dann den Zustand 0
+an, wenn alle Eingänge den Zustand 1 haben
+
+
 ### Beispiel
 Instanz\
 &nbsp;|- und\
