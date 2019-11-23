@@ -16,43 +16,37 @@ Das Ergebnis wird in der Variable "Ausgabe" dargestellt.
 #### UND
 Bezeichner: und / and
 
-Der Ausgang des AND nimmt nur dann den Zustand 1 an,
-wenn alle Eingänge den Zustand 1 haben
+Der Ausgang des AND nimmt nur dann den Zustand 1 an, wenn alle Eingänge den Zustand 1 haben.
 
 
 #### ODER
 Bezeichner: oder / or
 
-Der Ausgang des OR nimmt dann den Zustand 1 an, wenn
-mindestens ein Eingang den Zustand 1 hat
+Der Ausgang des OR nimmt dann den Zustand 1 an, wenn mindestens ein Eingang den Zustand 1 hat.
 
 
 ### ODER nicht
 Bezeichner: nor
 
-Der Ausgang des NOR nimmt nur dann den Zustand 1 an,
-wenn alle Eingänge den Zustand 0 haben
+Der Ausgang des NOR nimmt nur dann den Zustand 1 an, wenn alle Eingänge den Zustand 0 haben.
 
 
 #### NICHT
 Bezeichner: nicht / not
 
-Der Ausgang nimmt den Zustand 1 an, wenn der Eingang
-den Zustand 0 hat
+Der Ausgang nimmt den Zustand 1 an, wenn der Eingang den Zustand 0 hat. Wird mehr als ein Eingang verwendet verhält sich NICHT wie NOR.
 
 
 #### Exklusives ODER
 Bezeichner: xor  
 
-Der Ausgang des XOR nimmt den Zustand 1 an, wenn die
-Eingänge unterschiedliche Zustände besitzen
+Der Ausgang des XOR nimmt den Zustand 1 an, wenn die Eingänge unterschiedliche Zustände besitzen. Wenn mehr als zwei Eingänge verwendet werden nimmt XOR den Zustand 1 an wenn nur ein Eingang den Zustand 1 hat.
 
 
 #### UND Nicht
 Bezeichner: nand
 
-Der Ausgang des NAND nimmt nur dann den Zustand 0
-an, wenn alle Eingänge den Zustand 1 haben
+Der Ausgang des NAND nimmt nur dann den Zustand 0 an, wenn alle Eingänge den Zustand 1 haben.
 
 
 ### Beispiel
